@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MexGrid App Studio | #04 Micro-Jobs & Task Earning</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background:
+        radial-gradient(circle at 12% 8%, rgba(16, 185, 129, 0.24), transparent 42%),
+        radial-gradient(circle at 88% 12%, rgba(245, 158, 11, 0.22), transparent 42%),
+        radial-gradient(circle at 50% 96%, rgba(99, 102, 241, 0.16), transparent 50%),
+        #030712;
+      color: #f1f5f9;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .pulse-dot { animation: pulseDot 1.4s infinite; }
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.65; }
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+
+  <!-- Mobile-First Company Header -->
+  <header class="sticky top-0 z-40 bg-slate-950/95 backdrop-blur-xl border-b border-emerald-500/35 px-3.5 py-2.5 shadow-xl">
+    <div class="max-w-6xl mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-500 to-amber-500 flex items-center justify-center text-white font-black text-base sm:text-lg shadow-lg shadow-emerald-500/30">
+          <i class="fas fa-list-check"></i>
+        </div>
+        <div class="min-w-0">
+          <div class="text-sm sm:text-base font-black tracking-wide text-white truncate">
+            MEXGRID APP STUDIO
+          </div>
+          <div class="text-[11px] font-bold text-emerald-300 truncate">
+            #04 Micro-Jobs & Task Earning
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1.5 shrink-0">
+        <span class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-400/40">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-400 pulse-dot"></span> TASKS ACTIVE
+        </span>
+        <button type="button" onclick="openOfferInbox()" class="px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-black bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 shadow hover:opacity-95 transition cursor-pointer">
+          <i class="fas fa-tags mr-1"></i> Offer
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Right Side Quick Dock -->
+  <aside class="hidden sm:flex fixed right-3 top-1/2 -translate-y-1/2 z-40 flex-col gap-2 bg-slate-900/95 border border-emerald-500/35 p-2 rounded-2xl shadow-2xl">
+    <button type="button" onclick="switchTab('tabTasks')" title="Micro-Jobs Hub" class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 text-white text-sm flex items-center justify-center transition cursor-pointer">
+      <i class="fas fa-tasks"></i>
+    </button>
+    <button type="button" onclick="switchTab('tabWallet')" title="Wallet (Deposit/Withdraw)" class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-600 to-blue-600 text-white text-sm flex items-center justify-center transition cursor-pointer">
+      <i class="fas fa-wallet"></i>
+    </button>
+    <button type="button" onclick="switchTab('tabBoost')" title="Streak & Boosters" class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-slate-950 text-sm flex items-center justify-center transition cursor-pointer">
+      <i class="fas fa-fire"></i>
+    </button>
+    <button type="button" onclick="openOfferInbox()" title="Offer & Plans" class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-600 to-fuchsia-600 text-white text-sm flex items-center justify-center transition cursor-pointer">
+      <i class="fas fa-tags"></i>
+    </button>
+  </aside>
+
+  <main class="max-w-6xl mx-auto px-3.5 sm:px-4 pt-4">
+
+    <!-- ==================== TAB 1: MICRO-JOBS & TASK EARNING HOME ==================== -->
+    <section id="tabTasks" class="space-y-4">
+
+      <!-- Energetic Hero Banner -->
+      <div class="rounded-3xl bg-gradient-to-br from-emerald-600/25 via-teal-700/20 to-amber-600/20 border border-emerald-400/45 p-4 sm:p-6 shadow-2xl">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+          <div>
+            <span class="inline-block text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-emerald-300">
+              MexGrid App Studio • Category #04 Demo
+            </span>
+            <h1 class="text-xl sm:text-3xl font-black text-white mt-1 leading-tight">
+              Complete Bite-Sized Tasks, Earn Instant Rewards & Track Progress
+            </h1>
+            <p class="text-xs sm:text-sm text-slate-200 mt-1.5 max-w-2xl leading-relaxed">
+              Engage users with category-wise micro-tasks, proof/completion actions, daily streak bonuses, live reward counters, and transparent wallet deposits & withdrawals.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" onclick="claimDailyStreakBonus()" class="px-4 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 shadow-lg hover:opacity-95 transition cursor-pointer">
+              <i class="fas fa-fire mr-1"></i> Claim Streak (+$1.50)
+            </button>
+            <button type="button" onclick="switchTab('tabWallet')" class="px-4 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg hover:opacity-95 transition cursor-pointer">
+              <i class="fas fa-wallet mr-1"></i> Wallet
+            </button>
+          </div>
+        </div>
+
+        <!-- Daily Goal Progress Bar -->
+        <div class="mt-4 rounded-2xl bg-slate-950/80 border border-emerald-400/25 p-3.5">
+          <div class="flex items-center justify-between text-[11px] font-bold mb-1.5">
+            <span class="text-emerald-300"><i class="fas fa-bullseye mr-1"></i> Daily Task Milestone Goal</span>
+            <span id="goalProgressText" class="text-amber-300">2 / 5 Tasks Completed (40%)</span>
+          </div>
+          <div class="w-full h-2.5 rounded-full bg-slate-900 overflow-hidden border border-slate-800">
+            <div id="goalProgressBar" class="h-full bg-gradient-to-r from-emerald-400 via-teal-400 to-amber-400 transition-all duration-300" style="width: 40%;"></div>
+          </div>
+        </div>
+
+        <div class="mt-3 rounded-2xl bg-slate-950/75 border border-emerald-400/20 px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-[11px] sm:text-xs">
+          <span class="text-slate-200 font-semibold">
+            <i class="fas fa-shield-halved text-emerald-400 mr-1"></i>
+            <strong class="text-white">100% Genuine System</strong> • 50% Now & 50% After Delivery
+          </span>
+          <span class="text-amber-300 font-bold">
+            <i class="fas fa-award mr-1"></i> 3-Year Free Support on Delivered Features (New features/add-ons extra)
+          </span>
+        </div>
+      </div>
+
+      <!-- 4 Colorful Task KPI Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="rounded-2xl bg-gradient-to-br from-emerald-600/25 to-slate-900 border border-emerald-400/45 p-3.5 sm:p-4">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-extrabold text-emerald-300">REWARD WALLET</span>
+            <i class="fas fa-coins text-emerald-400"></i>
+          </div>
+          <div id="kpiRewardBal" class="text-lg sm:text-2xl font-black text-white mt-1">$84.50</div>
+          <div class="text-[10px] text-emerald-200 mt-0.5">Ready to withdraw/use</div>
+        </div>
+
+        <div class="rounded-2xl bg-gradient-to-br from-amber-500/25 to-slate-900 border border-amber-400/45 p-3.5 sm:p-4">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-extrabold text-amber-300">TASKS DONE</span>
+            <i class="fas fa-check-circle text-amber-400"></i>
+          </div>
+          <div id="kpiTasksDone" class="text-lg sm:text-2xl font-black text-white mt-1">2 Tasks</div>
+          <div class="text-[10px] text-amber-200 mt-0.5">Instant reward credit</div>
+        </div>
+
+        <div class="rounded-2xl bg-gradient-to-br from-cyan-600/25 to-slate-900 border border-cyan-400/45 p-3.5 sm:p-4">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-extrabold text-cyan-300">ACTIVE STREAK</span>
+            <i class="fas fa-fire text-cyan-400"></i>
+          </div>
+          <div id="kpiStreakDays" class="text-lg sm:text-2xl font-black text-white mt-1">6 Days</div>
+          <div class="text-[10px] text-cyan-200 mt-0.5">Daily bonus multiplier</div>
+        </div>
+
+        <div class="rounded-2xl bg-gradient-to-br from-purple-600/25 to-slate-900 border border-purple-400/45 p-3.5 sm:p-4">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-extrabold text-purple-300">WORKER LEVEL</span>
+            <i class="fas fa-medal text-purple-400"></i>
+          </div>
+          <div id="kpiWorkerLvl" class="text-lg sm:text-2xl font-black text-white mt-1">Pro Tier</div>
+          <div class="text-[10px] text-purple-200 mt-0.5">+15% task boost</div>
+        </div>
+      </div>
+
+      <!-- Task Category Filter Tabs -->
+      <div class="flex flex-wrap items-center gap-2">
+        <button type="button" id="catAll" onclick="filterTasks('ALL')" class="px-3.5 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-500 to-teal-500 text-white cursor-pointer">
+          All Tasks
+        </button>
+        <button type="button" id="catSocial" onclick="filterTasks('Social')" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-slate-900 text-slate-300 border border-slate-700 hover:border-emerald-400 cursor-pointer">
+          Social & Share
+        </button>
+        <button type="button" id="catApp" onclick="filterTasks('App Test')" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-slate-900 text-slate-300 border border-slate-700 hover:border-cyan-400 cursor-pointer">
+          App & Review
+        </button>
+        <button type="button" id="catSurvey" onclick="filterTasks('Survey')" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-slate-900 text-slate-300 border border-slate-700 hover:border-amber-400 cursor-pointer">
+          Quick Survey
+        </button>
+      </div>
+
+      <!-- Colorful Micro-Jobs Cards Grid -->
+      <div id="microJobsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5"></div>
+
+      <!-- Custom Task / Proof Submission Box + Live Activity Feed -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div class="lg:col-span-6 rounded-3xl bg-gradient-to-br from-slate-900 via-teal-950/30 to-slate-900 border border-emerald-500/35 p-4 sm:p-5 space-y-3">
+          <h3 class="text-sm sm:text-base font-black text-white">
+            <i class="fas fa-file-circle-check text-emerald-400 mr-2"></i>Quick Proof & Task Note Submit
+          </h3>
+          <p class="text-xs text-slate-300">Simulate submitting a task proof or username link to earn an instant micro-bonus.</p>
+          <input type="text" id="proofNoteInput" placeholder="Enter task username / proof note (e.g. @user_demo)" class="w-full rounded-xl bg-slate-950 border border-emerald-500/40 px-3 py-2.5 text-xs text-white" />
+          <button type="button" onclick="submitProofBonus()" class="w-full py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow hover:opacity-95 transition cursor-pointer">
+            <i class="fas fa-paper-plane mr-1"></i> Submit Proof (+$2.00 Demo)
+          </button>
+        </div>
+
+        <div class="lg:col-span-6 rounded-3xl bg-gradient-to-br from-slate-900 via-amber-950/20 to-slate-900 border border-amber-500/35 p-4 sm:p-5">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm sm:text-base font-black text-white">
+              <i class="fas fa-bolt text-amber-400 mr-2"></i>Live Task Completion Stream
+            </h3>
+            <span class="text-[10px] font-extrabold text-amber-300">REAL-TIME</span>
+          </div>
+          <div id="taskActivityLog" class="space-y-2 text-xs">
+            <div class="rounded-xl bg-slate-950/85 border border-emerald-500/30 px-3 py-2.5 flex items-center justify-between gap-2">
+              <span class="text-slate-200">Micro-job board live • Click "Complete Task" on any card</span>
+              <span class="font-extrabold text-emerald-400 shrink-0">ACTIVE</span>
+            </div>
+            <div class="rounded-xl bg-slate-950/85 border border-amber-500/30 px-3 py-2.5 flex items-center justify-between gap-2">
+              <span class="text-slate-200">Daily streak bonus system enabled</span>
+              <span class="font-extrabold text-amber-400 shrink-0">READY</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- English Description Box at the Bottom of Main Page -->
+      <div id="tasksDescBox" class="rounded-3xl bg-gradient-to-br from-slate-900 via-emerald-950/30 to-slate-900 border border-emerald-400/45 p-4 sm:p-6 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <h2 class="text-base sm:text-lg font-black text-white">
+            <i class="fas fa-circle-info text-emerald-400 mr-2"></i>#04 Micro-Jobs & Task Earning — Description Box
+          </h2>
+          <span class="px-3 py-1 rounded-full text-[11px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-400/45">
+            20% OFF Today • 50% Now / 50% After Delivery
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div class="rounded-2xl bg-gradient-to-br from-emerald-600/20 to-slate-950 border border-emerald-400/35 p-3.5">
+            <h3 class="text-xs font-black text-emerald-300 uppercase">What Type of App Is This?</h3>
+            <p class="text-xs text-slate-200 mt-1.5 leading-relaxed">
+              A Micro-Jobs & Task Earning platform with categorized tasks, proof submission, daily streak goals, and a full deposit/withdraw wallet.
+            </p>
+          </div>
+
+          <div class="rounded-2xl bg-gradient-to-br from-amber-600/20 to-slate-950 border border-amber-400/35 p-3.5">
+            <h3 class="text-xs font-black text-amber-300 uppercase">What Is It Useful For?</h3>
+            <p class="text-xs text-slate-200 mt-1.5 leading-relaxed">
+              Drives daily user retention through quick micro-tasks, milestone bars, instant reward logs, and smooth wallet actions.
+            </p>
+          </div>
+
+          <div class="rounded-2xl bg-gradient-to-br from-cyan-600/20 to-slate-950 border border-cyan-400/35 p-3.5">
+            <h3 class="text-xs font-black text-cyan-300 uppercase">Where Can You Use It?</h3>
+            <p class="text-xs text-slate-200 mt-1.5 leading-relaxed">
+              Ideal for micro-task reward apps, community engagement portals, survey/review clubs, and mobile or web launches.
+            </p>
+          </div>
+
+          <div class="rounded-2xl bg-gradient-to-br from-purple-600/20 to-slate-950 border border-purple-400/35 p-3.5">
+            <h3 class="text-xs font-black text-purple-300 uppercase">3-Year Support & Add-Ons</h3>
+            <p class="text-xs text-slate-200 mt-1.5 leading-relaxed">
+              Any bug or issue in delivered features is fixed free for 3 years; brand-new features or extra add-ons are charged separately.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: WALLET (DEPOSIT & WITHDRAW) ==================== -->
+    <section id="tabWallet" class="hidden space-y-4">
+      <div class="rounded-3xl bg-slate-900/95 border border-emerald-500/35 p-4 sm:p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 class="text-lg sm:text-xl font-black text-white">
+              <i class="fas fa-wallet text-emerald-400 mr-2"></i>Task Wallet — Deposit & Withdraw
+            </h2>
+            <p class="text-xs text-slate-300 mt-0.5">Deposit campaign funds or withdraw earned task rewards in demo mode.</p>
+          </div>
+          <div class="px-4 py-2 rounded-2xl bg-emerald-500/20 border border-emerald-400/45 text-right">
+            <div class="text-[10px] font-extrabold uppercase text-emerald-200">Available Balance</div>
+            <div id="walletTabBal" class="text-lg sm:text-xl font-black text-emerald-300">$84.50</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Deposit -->
+          <div class="rounded-2xl bg-gradient-to-br from-emerald-600/20 via-teal-950/40 to-slate-950 border border-emerald-400/45 p-4 space-y-3">
+            <h3 class="text-base font-black text-emerald-300"><i class="fas fa-arrow-down mr-1.5"></i>Deposit Funds</h3>
+            <div>
+              <label class="text-xs font-bold text-slate-300">Method</label>
+              <select id="tDepMethod" class="w-full mt-1 rounded-xl bg-slate-950 border border-emerald-500/40 px-3 py-2.5 text-xs text-white">
+                <option value="USDT (TRC20 / BEP20)">USDT (TRC20 / BEP20)</option>
+                <option value="UPI / INR Instant">UPI / INR Instant</option>
+                <option value="BNB / TRX Wallet">BNB / TRX Wallet</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs font-bold text-slate-300">Deposit Amount ($)</label>
+              <input type="number" id="tDepAmt" placeholder="e.g. 50" class="w-full mt-1 rounded-xl bg-slate-950 border border-emerald-500/40 px-3 py-2.5 text-sm text-white" />
+            </div>
+            <button type="button" onclick="doTaskDeposit()" class="w-full py-3 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg hover:opacity-95 transition cursor-pointer">
+              <i class="fas fa-plus-circle mr-1"></i> Deposit Now
+            </button>
+          </div>
+
+          <!-- Withdraw -->
+          <div class="rounded-2xl bg-gradient-to-br from-amber-600/20 via-orange-950/40 to-slate-950 border border-amber-400/45 p-4 space-y-3">
+            <h3 class="text-base font-black text-amber-300"><i class="fas fa-arrow-up mr-1.5"></i>Withdraw Rewards</h3>
+            <div>
+              <label class="text-xs font-bold text-slate-300">Payout Method</label>
+              <select id="tWdMethod" class="w-full mt-1 rounded-xl bg-slate-950 border border-amber-500/40 px-3 py-2.5 text-xs text-white">
+                <option value="USDT (TRC20 / BEP20)">USDT (TRC20 / BEP20)</option>
+                <option value="UPI / INR Instant">UPI / INR Instant</option>
+                <option value="BNB / TRX Wallet">BNB / TRX Wallet</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs font-bold text-slate-300">Withdraw Amount ($)</label>
+              <input type="number" id="tWdAmt" placeholder="e.g. 25" class="w-full mt-1 rounded-xl bg-slate-950 border border-amber-500/40 px-3 py-2.5 text-sm text-white" />
+            </div>
+            <button type="button" onclick="doTaskWithdraw()" class="w-full py-3 rounded-xl text-xs font-black bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 shadow-lg hover:opacity-95 transition cursor-pointer">
+              <i class="fas fa-paper-plane mr-1"></i> Withdraw Now
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-2">Wallet Deposit, Reward & Withdrawal Ledger</h3>
+          <div id="taskWalletLedger" class="space-y-2 text-xs">
+            <div class="rounded-xl bg-slate-950/85 border border-emerald-500/30 px-3.5 py-2.5 flex items-center justify-between">
+              <span class="text-slate-200"><strong class="text-emerald-300">[REWARD]</strong> Opening Demo Task Balance</span>
+              <span class="font-extrabold text-emerald-400">+$84.50</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: STREAK & BOOSTERS ==================== -->
+    <section id="tabBoost" class="hidden space-y-4">
+      <div class="rounded-3xl bg-slate-900/95 border border-amber-500/35 p-4 sm:p-6 space-y-4">
+        <h2 class="text-lg sm:text-xl font-black text-white">Daily Streaks & Boost Multipliers</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+          <div class="rounded-2xl bg-gradient-to-br from-emerald-600/20 to-slate-950 border border-emerald-400/40 p-4">
+            <h3 class="text-sm font-black text-emerald-300">Instant Task Credit</h3>
+            <p class="text-xs text-slate-300 mt-1">Rewards credit immediately upon completing a micro-job in the demo.</p>
+          </div>
+          <div class="rounded-2xl bg-gradient-to-br from-amber-600/20 to-slate-950 border border-amber-400/40 p-4">
+            <h3 class="text-sm font-black text-amber-300">Daily Streak Bonus</h3>
+            <p class="text-xs text-slate-300 mt-1">Encourages users to return every day for streak rewards and milestones.</p>
+          </div>
+          <div class="rounded-2xl bg-gradient-to-br from-purple-600/20 to-slate-950 border border-purple-400/40 p-4">
+            <h3 class="text-sm font-black text-purple-300">Custom Add-Ons</h3>
+            <p class="text-xs text-slate-300 mt-1">Delivered features include 3-year free support; new features/add-ons are billed separately.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Styled App Footer Card (Named After #04 Micro-Jobs & Task Earning) -->
+    <footer class="mt-6 rounded-3xl bg-gradient-to-b from-slate-900/95 to-slate-950 border border-emerald-500/30 px-5 py-6 text-center shadow-xl">
+      <div class="text-lg font-black text-white tracking-tight">#04 Micro-Jobs & Task Earning</div>
+      <div class="text-xs text-slate-400 mt-1">MexGrid App Studio • Micro-Tasks, Streaks & Wallet Demo</div>
+      <div class="flex flex-wrap items-center justify-center gap-5 mt-4 text-xs font-bold text-slate-300">
+        <button type="button" onclick="switchTab('tabTasks')" class="hover:text-emerald-300 transition cursor-pointer">Tasks</button>
+        <button type="button" onclick="switchTab('tabWallet')" class="hover:text-cyan-300 transition cursor-pointer">Wallet</button>
+        <button type="button" onclick="openOfferInbox()" class="hover:text-amber-300 transition cursor-pointer">Offer</button>
+        <button type="button" onclick="scrollToTasksAbout()" class="hover:text-purple-300 transition cursor-pointer">About</button>
+      </div>
+      <div class="text-[11px] text-slate-500 mt-4">© 2026 MexGrid App Studio. All Rights Reserved.</div>
+    </footer>
+  </main>
+
+  <!-- ==================== OFFER INBOX POPUP MODAL (Order Now & Pay Now Inside) ==================== -->
+  <div id="offerModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-end sm:items-center justify-center p-3 overflow-y-auto">
+    <div class="w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-3xl bg-slate-950 border border-emerald-500/50 p-5 sm:p-6 relative shadow-2xl">
+      <button type="button" onclick="closeOfferInbox()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-800 hover:bg-slate-700 text-white flex items-center justify-center cursor-pointer">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <div class="pr-10">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-400/45">
+          20% OFF TODAY • INR (₹) & CRYPTO (USDT) • 3-YEAR FREE SUPPORT
+        </span>
+        <h2 class="text-xl sm:text-2xl font-black text-white mt-2">#04 Micro-Jobs & Task Earning — Plans & Offer</h2>
+        <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+          <strong class="text-white">Payment Rule:</strong> Pay 50% now and 50% after delivery.
+          <strong class="text-white">3-Year Support Rule:</strong> Any bug or issue in delivered features is fixed free for 3 years; brand-new features or extra add-ons requested later are charged separately.
+        </p>
+      </div>
+
+      <!-- Currency Toggle -->
+      <div class="flex flex-wrap items-center gap-2 mt-4">
+        <span class="text-xs font-bold text-slate-400 mr-1">Checkout Currency:</span>
+        <button type="button" id="currBtnINR" onclick="changeCurrency('INR')" class="px-4 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-500 to-teal-500 text-white cursor-pointer">
+          Pay in INR (₹)
+        </button>
+        <button type="button" id="currBtnCRYPTO" onclick="changeCurrency('CRYPTO')" class="px-4 py-2 rounded-xl text-xs font-extrabold bg-slate-800 text-slate-200 border border-slate-700 cursor-pointer">
+          Pay in Crypto (USDT)
+        </button>
+      </div>
+
+      <!-- 3 Distinct Tiers for #04 -->
+      <div id="offerTiersGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"></div>
+
+      <!-- Summary + Order Now & Pay Now -->
+      <div class="mt-5 rounded-2xl bg-gradient-to-r from-slate-900 via-emerald-950/35 to-slate-900 border border-emerald-500/40 p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <div id="selectedOfferSummary" class="text-xs sm:text-sm font-black text-emerald-300"></div>
+          <div class="text-[11px] text-slate-300 mt-0.5">100% Genuine • 50% Now / 50% After Delivery • 3-Year Free Support on Delivered Features</div>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button type="button" onclick="orderSelectedOffer()" class="px-4 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md hover:opacity-95 transition cursor-pointer">
+            <i class="fab fa-whatsapp mr-1"></i> Order Now
+          </button>
+          <button type="button" onclick="paySelectedOffer()" class="px-4 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 shadow-md hover:opacity-95 transition cursor-pointer">
+            <i class="fas fa-qrcode mr-1"></i> Pay Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fallback Pay Modal -->
+  <div id="fallbackPayModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3">
+    <div class="w-full max-w-md rounded-3xl bg-slate-950 border border-emerald-500/50 p-5 relative shadow-2xl">
+      <button type="button" onclick="closeFallbackPay()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center cursor-pointer">
+        <i class="fas fa-times"></i>
+      </button>
+      <span class="inline-block px-3 py-1 rounded-full text-[11px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-400/45">
+        PAY GATEWAY HANDOFF
+      </span>
+      <h3 class="text-lg font-black text-white mt-2">Proceed to Pay</h3>
+      <p id="fallbackPayMessage" class="text-xs text-slate-300 mt-2 leading-relaxed"></p>
+      <div class="flex flex-wrap gap-2 mt-4">
+        <button type="button" onclick="orderSelectedOffer()" class="px-4 py-2 rounded-xl text-xs font-black bg-emerald-600 text-white cursor-pointer">
+          <i class="fab fa-whatsapp mr-1"></i> Confirm via WhatsApp
+        </button>
+        <button type="button" onclick="closeFallbackPay()" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-200 cursor-pointer">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fixed Bottom Navigation Bar (Demo Sections + Offer Only, NO Order/Pay here) -->
+  <nav class="fixed bottom-0 inset-x-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-emerald-500/35 px-2.5 py-2">
+    <div class="max-w-2xl mx-auto grid grid-cols-5 gap-1.5">
+      <button type="button" id="nav_tabTasks" onclick="switchTab('tabTasks')" class="py-2 px-1 rounded-xl text-[11px] font-extrabold flex flex-col items-center gap-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white cursor-pointer">
+        <i class="fas fa-tasks"></i><span>Tasks</span>
+      </button>
+      <button type="button" id="nav_tabWallet" onclick="switchTab('tabWallet')" class="py-2 px-1 rounded-xl text-[11px] font-extrabold flex flex-col items-center gap-0.5 bg-slate-900 text-slate-300 hover:text-white cursor-pointer">
+        <i class="fas fa-wallet"></i><span>Wallet</span>
+      </button>
+      <button type="button" id="nav_tabBoost" onclick="switchTab('tabBoost')" class="py-2 px-1 rounded-xl text-[11px] font-extrabold flex flex-col items-center gap-0.5 bg-slate-900 text-slate-300 hover:text-white cursor-pointer">
+        <i class="fas fa-fire"></i><span>Streak</span>
+      </button>
+      <button type="button" onclick="scrollToTasksAbout()" class="py-2 px-1 rounded-xl text-[11px] font-extrabold flex flex-col items-center gap-0.5 bg-slate-900 text-slate-300 hover:text-white cursor-pointer">
+        <i class="fas fa-info-circle"></i><span>About</span>
+      </button>
+      <button type="button" onclick="openOfferInbox()" class="py-2 px-1 rounded-xl text-[11px] font-black flex flex-col items-center gap-0.5 bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 cursor-pointer">
+        <i class="fas fa-tags"></i><span>Offer</span>
+      </button>
+    </div>
+  </nav>
+
+  <script>
+    const COMPANY_NAME = "MexGrid App Studio";
+    const APP_TITLE = "#04 Micro-Jobs & Task Earning";
+    const FALLBACK_WA = "919876543210";
+
+    // Distinct Pricing for #04 Micro-Jobs & Task Earning (20% OFF applied)
+    const TASK_PLANS = [
+      {
+        id: "basic",
+        name: "Basic",
+        badge: "TASK STARTER",
+        gradient: "from-emerald-600/25 via-teal-950/60 to-slate-900 border-emerald-400/50",
+        desc: "Micro-job cards, category filter & clean mobile earning UI.",
+        inrReg: 5625, inrOff: 4500,
+        usdtReg: 75, usdtOff: 60
+      },
+      {
+        id: "middle",
+        name: "Middle",
+        badge: "TASKS & WALLET PRO",
+        gradient: "from-amber-500/25 via-orange-950/60 to-slate-900 border-amber-400/60",
+        desc: "Interactive tasks, streak bonus, proof submit & deposit/withdraw wallet.",
+        inrReg: 11875, inrOff: 9500,
+        usdtReg: 160, usdtOff: 128
+      },
+      {
+        id: "full",
+        name: "Full",
+        badge: "COMPLETE MICRO-JOB HUB",
+        gradient: "from-purple-600/25 via-indigo-950/60 to-slate-900 border-purple-400/55",
+        desc: "Full micro-jobs platform, milestone engine, wallet ledger & order workflow.",
+        inrReg: 18750, inrOff: 15000,
+        usdtReg: 250, usdtOff: 200
+      }
+    ];
+
+    const SAMPLE_TASKS = [
+      { id: "t1", cat: "Social", title: "Share Brand Launch Post", desc: "Share official campaign link & verify completion.", reward: 3.50, time: "1 min", cardClass: "from-emerald-600/20 via-teal-950/50 to-slate-950 border-emerald-400/45", badgeClass: "bg-emerald-500/20 text-emerald-300" },
+      { id: "t2", cat: "App Test", title: "Explore Demo Dashboard", desc: "Test 3 interactive tabs & leave a short note.", reward: 5.00, time: "2 min", cardClass: "from-cyan-600/20 via-blue-950/50 to-slate-950 border-cyan-400/45", badgeClass: "bg-cyan-500/20 text-cyan-300" },
+      { id: "t3", cat: "Survey", title: "Quick 3-Question Feedback", desc: "Rate UI speed, layout clarity & mobile comfort.", reward: 4.00, time: "1 min", cardClass: "from-amber-600/20 via-orange-950/50 to-slate-950 border-amber-400/45", badgeClass: "bg-amber-500/20 text-amber-300" },
+      { id: "t4", cat: "Social", title: "Join Community Channel", desc: "Follow updates channel & claim instant bonus.", reward: 2.75, time: "1 min", cardClass: "from-purple-600/20 via-fuchsia-950/50 to-slate-950 border-purple-400/45", badgeClass: "bg-purple-500/20 text-purple-300" },
+      { id: "t5", cat: "App Test", title: "Test Wallet Deposit/Withdraw", desc: "Try a demo wallet action & check ledger log.", reward: 6.00, time: "2 min", cardClass: "from-pink-600/20 via-rose-950/50 to-slate-950 border-pink-400/45", badgeClass: "bg-pink-500/20 text-pink-300" },
+      { id: "t6", cat: "Survey", title: "Feature Vote Micro-Poll", desc: "Pick your top requested platform module.", reward: 3.00, time: "30 sec", cardClass: "from-indigo-600/20 via-slate-900 to-slate-950 border-indigo-400/45", badgeClass: "bg-indigo-500/20 text-indigo-300" }
+    ];
+
+    let activeCurrency = "INR";
+    let activePlanId = "middle";
+    let activeCat = "ALL";
+
+    let rewardBal = 84.50;
+    let tasksDone = 2;
+    let streakDays = 6;
+    const completedIds = new Set();
+
+    function formatCurrency(val, mode) {
+      return mode === "INR"
+        ? `₹${Number(val).toLocaleString("en-IN")}`
+        : `${Number(val).toLocaleString("en-US")} USDT`;
+    }
+
+    function getActivePlan() {
+      return TASK_PLANS.find(p => p.id === activePlanId) || TASK_PLANS[1];
+    }
+
+    function changeCurrency(mode) {
+      activeCurrency = mode;
+      const isINR = mode === "INR";
+      document.getElementById("currBtnINR").className = isINR
+        ? "px-4 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-500 to-teal-500 text-white cursor-pointer"
+        : "px-4 py-2 rounded-xl text-xs font-extrabold bg-slate-800 text-slate-200 border border-slate-700 cursor-pointer";
+      document.getElementById("currBtnCRYPTO").className = !isINR
+        ? "px-4 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-500 to-teal-500 text-white cursor-pointer"
+        : "px-4 py-2 rounded-xl text-xs font-extrabold bg-slate-800 text-slate-200 border border-slate-700 cursor-pointer";
+      renderOfferPlans();
+    }
+
+    function choosePlan(id) {
+      activePlanId = id;
+      renderOfferPlans();
+    }
+
+    function renderOfferPlans() {
+      const container = document.getElementById("offerTiersGrid");
+      const plan = getActivePlan();
+      const totalOffer = activeCurrency === "INR" ? plan.inrOff : plan.usdtOff;
+      const halfAmt = totalOffer / 2;
+
+      container.innerHTML = TASK_PLANS.map(item => {
+        const selected = item.id === activePlanId;
+        const inrHalf = item.inrOff / 2;
+        const usdtHalf = item.usdtOff / 2;
+
+        return `
+          <div onclick="choosePlan('${item.id}')" class="rounded-2xl p-4 bg-gradient-to-br ${item.gradient} border transition cursor-pointer flex flex-col justify-between gap-3 ${selected ? "ring-2 ring-white/80 scale-[1.01]" : "opacity-95 hover:opacity-100"}">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-base font-black text-white">${item.name}</span>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500/25 text-emerald-200 border border-emerald-400/50">20% OFF</span>
+              </div>
+              <div class="text-[10px] font-extrabold text-amber-300 mt-0.5">${item.badge}</div>
+              <p class="text-xs text-slate-200 mt-1.5 leading-relaxed">${item.desc}</p>
+
+              <div class="mt-3 rounded-xl bg-slate-950/80 border border-white/10 p-3 space-y-2">
+                <div>
+                  <div class="text-[10px] font-bold uppercase text-emerald-300">INR Rate</div>
+                  <div class="flex items-baseline gap-2">
+                    <span class="text-xs line-through text-slate-400">₹${item.inrReg.toLocaleString("en-IN")}</span>
+                    <span class="text-lg font-black text-emerald-300">₹${item.inrOff.toLocaleString("en-IN")}</span>
+                  </div>
+                  <div class="text-[10px] text-slate-300">50% Now: ₹${inrHalf.toLocaleString("en-IN")} • After Delivery: ₹${inrHalf.toLocaleString("en-IN")}</div>
+                </div>
+
+                <div class="border-t border-slate-800 pt-2">
+                  <div class="text-[10px] font-bold uppercase text-amber-300">Crypto Rate</div>
+                  <div class="flex items-baseline gap-2">
+                    <span class="text-xs line-through text-slate-400">${item.usdtReg} USDT</span>
+                    <span class="text-lg font-black text-amber-300">${item.usdtOff} USDT</span>
+                  </div>
+                  <div class="text-[10px] text-slate-300">50% Now: ${usdtHalf} USDT • After Delivery: ${usdtHalf} USDT</div>
+                </div>
+              </div>
+
+              <div class="text-[11px] text-emerald-200 mt-2">
+                3-Year Free Support on Delivered Features (New features/add-ons extra)
+              </div>
+            </div>
+
+            <button type="button" onclick="event.stopPropagation(); choosePlan('${item.id}'); orderSelectedOffer();" class="w-full py-2.5 rounded-xl text-xs font-black transition cursor-pointer ${selected ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg" : "bg-slate-950/90 hover:bg-slate-900 text-white border border-white/15"}">
+              Order Now (${item.name})
+            </button>
+          </div>
+        `;
+      }).join("");
+
+      document.getElementById("selectedOfferSummary").innerText =
+        `${plan.name} Selected — ${formatCurrency(totalOffer, activeCurrency)} (20% OFF | 50% Now: ${formatCurrency(halfAmt, activeCurrency)} • 50% After Delivery: ${formatCurrency(halfAmt, activeCurrency)})`;
+    }
+
+    function openOfferInbox() {
+      renderOfferPlans();
+      document.getElementById("offerModal").classList.remove("hidden");
+    }
+
+    function closeOfferInbox() {
+      document.getElementById("offerModal").classList.add("hidden");
+    }
+
+    function openFallbackPay(msg) {
+      document.getElementById("fallbackPayMessage").innerText = msg;
+      document.getElementById("fallbackPayModal").classList.remove("hidden");
+    }
+
+    function closeFallbackPay() {
+      document.getElementById("fallbackPayModal").classList.add("hidden");
+    }
+
+    function getParentWa() {
+      try {
+        if (window.parent && window.parent.globalSettings && window.parent.globalSettings.wa) {
+          return String(window.parent.globalSettings.wa).replace(/[^0-9]/g, "") || FALLBACK_WA;
+        }
+      } catch (_) {}
+      return FALLBACK_WA;
+    }
+
+    function orderSelectedOffer() {
+      const plan = getActivePlan();
+      const totalOffer = activeCurrency === "INR" ? plan.inrOff : plan.usdtOff;
+      const halfAmt = totalOffer / 2;
+      const wa = getParentWa();
+
+      const text =
+        `🚀 *NEW ORDER — ${COMPANY_NAME.toUpperCase()}*\n\n` +
+        `📱 *App:* ${APP_TITLE}\n` +
+        `📦 *Plan:* ${plan.name} (20% OFF)\n` +
+        `💱 *Currency:* ${activeCurrency === "INR" ? "INR (₹)" : "Crypto (USDT)"}\n` +
+        `💰 *Offer Price:* ${formatCurrency(totalOffer, activeCurrency)}\n` +
+        `💳 *Split:* 50% Now (${formatCurrency(halfAmt, activeCurrency)}) + 50% After Delivery (${formatCurrency(halfAmt, activeCurrency)})\n` +
+        `🛡️ *Support:* 3-Year Free Support on Delivered Features (New features/add-ons charged separately)`;
+
+      try {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({
+            type: "ORDER_DEMO_PLAN",
+            company: COMPANY_NAME,
+            app: APP_TITLE,
+            plan: plan.name,
+            currency: activeCurrency,
+            amount: totalOffer
+          }, "*");
+        }
+      } catch (_) {}
+
+      window.open(`https://wa.me/${wa}?text=${encodeURIComponent(text)}`, "_blank");
+    }
+
+    function paySelectedOffer() {
+      const plan = getActivePlan();
+      const totalOffer = activeCurrency === "INR" ? plan.inrOff : plan.usdtOff;
+      const halfNow = totalOffer / 2;
+      const label = `${APP_TITLE} — ${plan.name} (${formatCurrency(halfNow, activeCurrency)} 50% Advance of ${formatCurrency(totalOffer, activeCurrency)})`;
+      let handedOff = false;
+
+      try {
+        const frames = [window.parent, window.top].filter(Boolean);
+        for (const frame of frames) {
+          if (typeof frame.openPayModal === "function") {
+            frame.openPayModal(label, halfNow, activeCurrency);
+            handedOff = true;
+            break;
+          }
+          if (typeof frame.openPay === "function") {
+            frame.openPay(label, halfNow, activeCurrency);
+            handedOff = true;
+            break;
+          }
+          if (frame !== window) {
+            frame.postMessage({
+              type: "OPEN_PAY",
+              company: COMPANY_NAME,
+              app: APP_TITLE,
+              plan: plan.name,
+              label: label,
+              amount: halfNow,
+              totalAmount: totalOffer,
+              currency: activeCurrency
+            }, "*");
+          }
+        }
+      } catch (_) {}
+
+      if (!handedOff) {
+        openFallbackPay(
+          `Selected: ${APP_TITLE} (${plan.name} Plan) • 50% Advance Due Now: ${formatCurrency(halfNow, activeCurrency)} (Total Offer: ${formatCurrency(totalOffer, activeCurrency)}). Your parent portal has been signaled via postMessage if hosted inside ${COMPANY_NAME}; you can also confirm via WhatsApp.`
+        );
+      }
+    }
+
+    function filterTasks(cat) {
+      activeCat = cat;
+      const map = { ALL: "catAll", Social: "catSocial", "App Test": "catApp", Survey: "catSurvey" };
+      Object.entries(map).forEach(([key, id]) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.className = (key === cat)
+          ? "px-3.5 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-500 to-teal-500 text-white cursor-pointer"
+          : "px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-slate-900 text-slate-300 border border-slate-700 hover:border-emerald-400 cursor-pointer";
+      });
+      renderTasksGrid();
+    }
+
+    function renderTasksGrid() {
+      const box = document.getElementById("microJobsGrid");
+      const items = activeCat === "ALL" ? SAMPLE_TASKS : SAMPLE_TASKS.filter(t => t.cat === activeCat);
+
+      box.innerHTML = items.map(t => {
+        const done = completedIds.has(t.id);
+        return `
+          <div class="rounded-2xl bg-gradient-to-br ${t.cardClass} border p-4 flex flex-col justify-between gap-3 shadow-lg">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${t.badgeClass}">${t.cat} • ${t.time}</span>
+                <span class="text-sm font-black text-emerald-300">+$${t.reward.toFixed(2)}</span>
+              </div>
+              <h3 class="text-sm sm:text-base font-black text-white mt-2">${t.title}</h3>
+              <p class="text-xs text-slate-300 mt-1 leading-relaxed">${t.desc}</p>
+            </div>
+            <button type="button" onclick="completeMicroTask('${t.id}')" class="w-full py-2.5 rounded-xl text-xs font-black transition cursor-pointer ${done ? "bg-slate-800 text-emerald-300 border border-emerald-500/40" : "bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:opacity-95"}">
+              ${done ? '<i class="fas fa-check mr-1"></i> Completed (Claim Again)' : '<i class="fas fa-bolt mr-1"></i> Complete Task (+$' + t.reward.toFixed(2) + ')'}
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function addTaskFeed(msg, tag, green = true) {
+      const box = document.getElementById("taskActivityLog");
+      const row = document.createElement("div");
+      row.className = `rounded-xl bg-slate-950/85 border ${green ? "border-emerald-500/35" : "border-amber-500/35"} px-3 py-2.5 flex items-center justify-between gap-2`;
+      row.innerHTML = `<span class="text-slate-200">${msg}</span><span class="font-extrabold ${green ? "text-emerald-400" : "text-amber-400"} shrink-0">${tag}</span>`;
+      box.prepend(row);
+    }
+
+    function addTaskLedger(tag, detail, amtText, isPos = true) {
+      const box = document.getElementById("taskWalletLedger");
+      const row = document.createElement("div");
+      row.className = `rounded-xl bg-slate-950/85 border ${isPos ? "border-emerald-500/35" : "border-amber-500/35"} px-3.5 py-2.5 flex items-center justify-between gap-2`;
+      row.innerHTML = `
+        <span class="text-slate-200"><strong class="${isPos ? "text-emerald-300" : "text-amber-300"}">[${tag}]</strong> ${detail}</span>
+        <span class="font-extrabold ${isPos ? "text-emerald-400" : "text-amber-400"} shrink-0">${amtText}</span>
+      `;
+      box.prepend(row);
+    }
+
+    function syncTaskUI() {
+      document.getElementById("kpiRewardBal").innerText = "$" + rewardBal.toFixed(2);
+      document.getElementById("walletTabBal").innerText = "$" + rewardBal.toFixed(2);
+      document.getElementById("kpiTasksDone").innerText = tasksDone + (tasksDone === 1 ? " Task" : " Tasks");
+      document.getElementById("kpiStreakDays").innerText = streakDays + " Days";
+      document.getElementById("kpiWorkerLvl").innerText = tasksDone >= 6 ? "Gold Tier" : "Pro Tier";
+
+      const goalCount = tasksDone % 5;
+      const pct = Math.round((goalCount / 5) * 100);
+      document.getElementById("goalProgressText").innerText = `${goalCount} / 5 Tasks Completed (${pct}%)`;
+      document.getElementById("goalProgressBar").style.width = `${pct}%`;
+    }
+
+    function completeMicroTask(id) {
+      const task = SAMPLE_TASKS.find(t => t.id === id);
+      if (!task) return;
+      rewardBal += task.reward;
+      tasksDone += 1;
+      completedIds.add(id);
+      syncTaskUI();
+      renderTasksGrid();
+      addTaskFeed(`Completed "${task.title}" (+$${task.reward.toFixed(2)})`, "EARNED", true);
+      addTaskLedger("REWARD", task.title, `+$${task.reward.toFixed(2)}`, true);
+    }
+
+    function claimDailyStreakBonus() {
+      rewardBal += 1.50;
+      streakDays += 1;
+      syncTaskUI();
+      addTaskFeed(`Claimed Daily Streak Bonus (+$1.50 • ${streakDays}-Day Streak)`, "STREAK", true);
+      addTaskLedger("STREAK", `Day ${streakDays} Streak Bonus`, "+$1.50", true);
+    }
+
+    function submitProofBonus() {
+      const note = document.getElementById("proofNoteInput").value.trim() || "Demo Proof";
+      rewardBal += 2.00;
+      tasksDone += 1;
+      document.getElementById("proofNoteInput").value = "";
+      syncTaskUI();
+      addTaskFeed(`Proof verified (${note}) (+$2.00)`, "APPROVED", true);
+      addTaskLedger("PROOF", `Task Proof: ${note}`, "+$2.00", true);
+    }
+
+    function doTaskDeposit() {
+      const amt = Number(document.getElementById("tDepAmt").value);
+      const method = document.getElementById("tDepMethod").value;
+      if (!amt || amt <= 0) {
+        alert("Enter a valid deposit amount.");
+        return;
+      }
+      rewardBal += amt;
+      document.getElementById("tDepAmt").value = "";
+      syncTaskUI();
+      addTaskLedger("DEPOSIT", `Added via ${method}`, `+$${amt.toFixed(2)}`, true);
+      addTaskFeed(`Deposited +$${amt.toFixed(2)} (${method})`, "DEPOSIT", true);
+    }
+
+    function doTaskWithdraw() {
+      const amt = Number(document.getElementById("tWdAmt").value);
+      const method = document.getElementById("tWdMethod").value;
+      if (!amt || amt <= 0 || amt > rewardBal) {
+        alert("Enter a valid withdrawal amount within available balance.");
+        return;
+      }
+      rewardBal -= amt;
+      document.getElementById("tWdAmt").value = "";
+      syncTaskUI();
+      addTaskLedger("WITHDRAW", `Sent via ${method}`, `-$${amt.toFixed(2)}`, false);
+      addTaskFeed(`Withdrew -$${amt.toFixed(2)} (${method})`, "WITHDRAW", false);
+    }
+
+    function scrollToTasksAbout() {
+      switchTab("tabTasks");
+      setTimeout(() => {
+        document.getElementById("tasksDescBox")?.scrollIntoView({ behavior: "smooth" });
+      }, 60);
+    }
+
+    function switchTab(id) {
+      ["tabTasks", "tabWallet", "tabBoost"].forEach(tab => {
+        document.getElementById(tab)?.classList.add("hidden");
+        const navBtn = document.getElementById("nav_" + tab);
+        if (navBtn) {
+          navBtn.className = "py-2 px-1 rounded-xl text-[11px] font-extrabold flex flex-col items-center gap-0.5 bg-slate-900 text-slate-300 hover:text-white cursor-pointer";
+        }
+      });
+      document.getElementById(id)?.classList.remove("hidden");
+      const activeNav = document.getElementById("nav_" + id);
+      if (activeNav) {
+        activeNav.className = "py-2 px-1 rounded-xl text-[11px] font-extrabold flex flex-col items-center gap-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white cursor-pointer";
+      }
+    }
+
+    renderTasksGrid();
+    syncTaskUI();
+    renderOfferPlans();
+  </script>
+</body>
+</html>
